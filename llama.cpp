@@ -1491,6 +1491,14 @@ int llama_tokenize(
     return res.size();
 }
 
+std::vector<llama_token> llama_tokenize(
+        struct llama_context * ctx,
+                 std::string   text,
+                        bool   add_bos) {
+    return llama_tokenize(ctx->vocab, text, add_bos);
+}
+
+
 int llama_n_vocab(struct llama_context * ctx) {
     return ctx->vocab.id_to_token.size();
 }
