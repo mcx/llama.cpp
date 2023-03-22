@@ -11,7 +11,7 @@ let package = Package(
         .target(
             name: "llama",
             path: ".",
-            exclude: ["main.cpp", "tests"],
+            exclude: ["main.cpp", "tests", "quantize.cpp"],
             cSettings: [.unsafeFlags(["-Wno-shorten-64-to-32"])]
         ),
     ],
