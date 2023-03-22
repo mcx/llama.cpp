@@ -1,5 +1,5 @@
-#ifndef LLAMA_HPP
-#define LLAMA_HPP
+#ifndef LLAMA_CPP_H
+#define LLAMA_CPP_H
 
 #include <string>
 
