@@ -68,7 +68,7 @@ extern "C" {
     LLAMA_API struct llama_context * llama_init_from_file(
                              const char * path_model,
             struct llama_context_params   params,
-                 llama_progress_handler   progress);
+          struct llama_progress_handler   progress);
 
     // Frees all allocated memory
     LLAMA_API void llama_free(struct llama_context * ctx);
@@ -91,7 +91,7 @@ extern "C" {
                              int   n_tokens,
                              int   n_past,
                              int   n_threads,
-          llama_progress_handler   progress);
+   struct llama_progress_handler   progress);
 
     // Convert the provided text into tokens.
     // The tokens pointer must be large enough to hold the resulting tokens.
