@@ -60,6 +60,8 @@ extern "C" {
         void *ctx;
     };
 
+    struct llama_token_list;
+
     LLAMA_API struct llama_context_params llama_context_default_params();
 
     // Various functions for loading a ggml llama model.
@@ -96,13 +98,17 @@ extern "C" {
     // The tokens pointer must be large enough to hold the resulting tokens.
     // Returns the number of tokens on success, no more than n_max_tokens
     // Returns a negative number on failure - the number of tokens that would have been returned
-    // TODO: not sure if correct
-    LLAMA_API int llama_tokenize(
-            struct llama_context * ctx,
-                      const char * text,
-                     llama_token * tokens,
-                             int   n_max_tokens,
-                            bool   add_bos);
+    LLAMA_API struct llama_token_list * llama_tokenize(
+               struct llama_context * ctx,
+                         const char * text,
+                               bool   add_bos);
+
+    LLAMA_API int llama_token_list_size(struct llama_token_list * token_list);
+    LLAMA_API bool llama_token_list_copy(
+        struct llama_token_list * token_list,
+                    llama_token * tokens,
+                            int   n_tokens);
+    LLAMA_API int llama_token_list_free(struct llama_token_list * token_list);
 
     LLAMA_API int llama_n_vocab(struct llama_context * ctx);
     LLAMA_API int llama_n_ctx  (struct llama_context * ctx);

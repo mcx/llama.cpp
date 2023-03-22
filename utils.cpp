@@ -146,9 +146,9 @@ std::string gpt_random_prompt(std::mt19937 & rng) {
 
 // TODO: not great allocating this every time
 std::vector<llama_token> llama_tokenize(struct llama_context * ctx, const std::string & text, bool add_bos) {
-    std::vector<llama_token> res(8096);
-    int n = llama_tokenize(ctx, text.c_str(), res.data(), res.size(), add_bos);
-    res.resize(n);
+    llama_token_list * tokens = llama_tokenize(ctx, text.c_str(), add_bos);
+    std::vector<llama_token> res(llama_token_list_size(tokens));
+    llama_token_list_copy(tokens, res.data(), res.size());
 
     return res;
 }

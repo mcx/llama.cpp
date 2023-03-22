@@ -1471,24 +1471,40 @@ int llama_eval(
     return 0;
 }
 
-int llama_tokenize(
-        struct llama_context * ctx,
-                  const char * text,
-                 llama_token * tokens,
-                         int   n_max_tokens,
-                        bool   add_bos) {
-    auto res = llama_tokenize(ctx->vocab, text, add_bos);
+struct llama_token_list {
+    std::vector<llama_vocab::id> tokens;
+    llama_token_list(std::vector<llama_vocab::id> tokens) : tokens(tokens) {}
+};
 
-    if (n_max_tokens < (int) res.size()) {
+llama_token_list * llama_tokenize(
+           struct llama_context * ctx,
+                     const char * text,
+                           bool   add_bos) {
+    return new llama_token_list(llama_tokenize(ctx->vocab, text, add_bos));
+}
+
+int llama_token_list_size(struct llama_token_list * token_list) {
+    return token_list->tokens.size();
+}
+
+bool llama_token_list_copy(
+    struct llama_token_list * token_list,
+                llama_token * tokens,
+                        int   n_tokens) {
+    if (n_tokens != token_list->tokens.size()) {
         fprintf(stderr, "%s: too many tokens\n", __func__);
-        return -((int) res.size());
+        return false;
     }
 
-    for (size_t i = 0; i < res.size(); i++) {
-        tokens[i] = res[i];
+    for (size_t i = 0; i < token_list->tokens.size(); i++) {
+        tokens[i] = token_list->tokens[i];
     }
 
-    return res.size();
+    return true;
+}
+
+int llama_token_list_free(struct llama_token_list * token_list) {
+    delete token_list;
 }
 
 int llama_n_vocab(struct llama_context * ctx) {
