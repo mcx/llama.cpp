@@ -25,3 +25,7 @@ compile_commands.json
 
 .envrc
 .direnv/
+
+.venv
+__pycache__
+.swiftpm
