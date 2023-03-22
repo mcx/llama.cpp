@@ -12,6 +12,7 @@ let package = Package(
             name: "llama",
             path: ".",
             exclude: ["main.cpp", "tests", "quantize.cpp"],
+            publicHeadersPath: "spm-headers",
             cSettings: [.unsafeFlags(["-Wno-shorten-64-to-32"])]
         ),
     ],
